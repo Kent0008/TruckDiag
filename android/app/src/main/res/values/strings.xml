@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TruckDiag</string>
+    <string name="nav_home">Главная</string>
+    <string name="nav_livedata">Live Data</string>
+    <string name="nav_faults">DTC Коды</string>
+    <string name="nav_canbus">CAN Шина</string>
+    <string name="nav_decoder">Декодер</string>
+    <string name="nav_sessions">Сеансы</string>
+    <string name="nav_reports">Отчёты</string>
+    <string name="nav_connection">Связь</string>
+    <string name="nav_settings">Настройки</string>
+
+    <!-- General / Status -->
+    <string name="status_connected">Подключено к API</string>
+    <string name="status_connecting">Подключение...</string>
+    <string name="status_disconnected">Нет связи с API</string>
+    <string name="status_simulated">ДЕМО / СИМУЛЯЦИЯ</string>
+    <string name="simulated_disclaimer">Виртуальный режим: прямое подключение к физическому ECU автомобиля отсутствует</string>
+    <string name="last_updated">Обновлено: %1$s</string>
+    <string name="retry">Повторить</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отмена</string>
+    <string name="start">Запуск</string>
+    <string name="stop">Остановка</string>
+    <string name="scan">Сканировать</string>
+    <string name="export">Экспорт</string>
+    <string name="details">Подробнее</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">TruckDiag Scania J1939</string>
+    <string name="home_subtitle">Диагностический комплекс грузовых автомобилей</string>
+    <string name="api_status_card_title">Состояние API сервера</string>
+    <string name="active_session_card_title">Текущий диагностический сеанс</string>
+    <string name="selected_truck_card_title">Автомобиль</string>
+    <string name="data_source_card_title">Источник диагностических данных</string>
+    <string name="no_active_session">Активный сеанс не выбран</string>
+    <string name="create_session_prompt">Создайте новый сеанс или запустите демо</string>
+    <string name="btn_start_demo">Быстрый запуск деморежима</string>
+    <string name="btn_open_connection">Настройки подключения</string>
+
+    <!-- Connection Screen -->
+    <string name="connection_title">Параметры соединения</string>
+    <string name="api_url_label">Базовый адрес API</string>
+    <string name="api_url_hint">http://10.0.2.2:8000 (эмулятор) или IP ПК</string>
+    <string name="api_preset_emulator">Эмулятор Android (10.0.2.2:8000)</string>
+    <string name="api_preset_lan">Локальная сеть Wi-Fi (IP компьютера)</string>
+    <string name="btn_check_connection">Проверить связь с сервером</string>
+    <string name="connection_success">Связь с сервером успешно установлена!</string>
+    <string name="connection_error">Ошибка связи с сервером. Проверьте адрес и запуск backend.</string>
+
+    <!-- Live Data Screen -->
+    <string name="live_data_title">Телеметрия в реальном времени</string>
+    <string name="live_stream_active">WebSocket поток активен</string>
+    <string name="live_stream_polling">Резервный REST опрос (Polling)</string>
+    <string name="category_all">Все</string>
+    <string name="category_engine">Двигатель</string>
+    <string name="category_transmission">КПП</string>
+    <string name="category_brakes">Тормоза / Пневматика</string>
+    <string name="category_electrical">Электрика</string>
+
+    <!-- Faults Screen -->
+    <string name="faults_title">Диагностические коды неисправностей (DTC)</string>
+    <string name="faults_scan_button">Запустить сканирование ECU</string>
+    <string name="faults_empty">Активных кодов неисправностей не обнаружено</string>
+    <string name="faults_simulated_scan_notice">Сканирование симулированных блоков управления (EMS, COO8, GMS, EBS)</string>
+    <string name="severity_critical">КРИТИЧЕСКИЙ</string>
+    <string name="severity_warning">ПРЕДУПРЕЖДЕНИЕ</string>
+    <string name="severity_info">ИНФО</string>
+    <string name="spn_label">SPN: %1$d | FMI: %2$d | Счётчик: %3$d</string>
+
+    <!-- CAN Bus Screen -->
+    <string name="can_bus_title">Монитор CAN / J1939</string>
+    <string name="can_frames_count">Кадров в буфере: %1$d</string>
+    <string name="can_id_label">CAN ID: %1$s</string>
+    <string name="pgn_label">PGN: %1$d (%2$s)</string>
+    <string name="sa_label">Источник: 0x%1$02X (%2$s)</string>
+    <string name="dlc_label">DLC: %1$d</string>
+    <string name="payload_label">Данные: %1$s</string>
+
+    <!-- Decoder Screen -->
+    <string name="decoder_title">Декодер CAN / J1939 кадров</string>
+    <string name="decoder_subtitle">Разбор 29-битного CAN ID и байтов полезной нагрузки в параметры SPN</string>
+    <string name="input_can_id_label">CAN ID (HEX или десятичный, напр. 0x0CF00400)</string>
+    <string name="input_payload_label">Полезная нагрузка (HEX до 8 байт, напр. F07D84204EFFFFF0)</string>
+    <string name="btn_decode">Декодировать кадр</string>
+    <string name="btn_sample_eec1">Пример EEC1 (Обороты)</string>
+    <string name="btn_sample_et1">Пример ET1 (Охл. жидкость)</string>
+    <string name="btn_sample_ccvs">Пример CCVS (Скорость)</string>
+    <string name="decoded_result_title">Результат декодирования:</string>
+
+    <!-- Sessions Screen -->
+    <string name="sessions_title">История сеансов диагностики</string>
+    <string name="btn_new_session">Создать новый сеанс</string>
+    <string name="session_status_label">Статус: %1$s</string>
+    <string name="session_operator_label">Специалист: %1$s</string>
+    <string name="session_truck_label">Автомобиль: %1$s</string>
+    <string name="session_created_label">Создан: %1$s</string>
+
+    <!-- Reports Screen -->
+    <string name="reports_title">Диагностические отчёты</string>
+    <string name="btn_create_report">Сформировать отчёт</string>
+    <string name="reports_empty">Сохранённых отчётов пока нет</string>
+    <string name="report_faults_count">Ошибок зафиксировано: %1$d</string>
+    <string name="report_exported_notice">Отчёт экспортирован в JSON</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Настройки и инфо</string>
+    <string name="pref_network_title">Сетевое подключение</string>
+    <string name="pref_refresh_interval">Интервал опроса телеметрии (мс)</string>
+    <string name="pref_about_title">О приложении TruckDiag</string>
+    <string name="app_version_label">Версия: 1.0.0 (MVP Diagnostic Edition)</string>
+    <string name="protocol_support_label">Протокол: SAE J1939 / CAN 2.0B / Scania Euro 6 Simulation</string>
+</resources>
