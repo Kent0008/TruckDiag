@@ -124,7 +124,7 @@ fun HomeScreen(
                 val session = state.activeSession
                 if (session != null) {
                     Text(
-                        text = "ID: ${session.id.take(12)}...",
+                        text = "Сеанс: ${session.id.take(12)}...",
                         style = MaterialTheme.typography.bodyMedium,
                         color = TextPrimary
                     )

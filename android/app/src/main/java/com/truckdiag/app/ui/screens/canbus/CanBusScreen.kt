@@ -24,6 +24,8 @@ import androidx.navigation.NavController
 import com.truckdiag.app.R
 import com.truckdiag.app.data.model.CanFrameDto
 import com.truckdiag.app.ui.components.SimulatedBadge
+import com.truckdiag.app.ui.components.LocalizedPgnName
+import com.truckdiag.app.ui.components.LocalizedSourceName
 import com.truckdiag.app.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,7 +87,7 @@ fun CanBusScreen(
             ) {
                 SimulatedBadge()
                 Text(
-                    text = "J1939 29-bit CAN ID (250 kbps)",
+                    text = "SAE J1939 · 29-битная шина CAN · 250 кбит/с",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     fontFamily = FontFamily.Monospace,
@@ -138,7 +140,7 @@ fun CanFrameRowItem(frame: CanFrameDto) {
                 )
 
                 Text(
-                    text = "PGN: ${frame.pgn} (${frame.pgnName.take(16)})",
+                    text = "Группа PGN: ${frame.pgn} (${LocalizedPgnName(frame.pgn, frame.pgnName)})",
                     style = MaterialTheme.typography.bodySmall,
                     color = PrimaryAmberLight,
                     fontWeight = FontWeight.Medium
@@ -152,14 +154,14 @@ fun CanFrameRowItem(frame: CanFrameDto) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "SA: 0x${frame.sourceAddress.toString(16).uppercase().padStart(2, '0')} (${frame.sourceName})",
+                    text = "Адрес источника: 0x${frame.sourceAddress.toString(16).uppercase().padStart(2, '0')} (${LocalizedSourceName(frame.sourceAddress)})",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     fontSize = 11.sp
                 )
 
                 Text(
-                    text = "Prio: ${frame.priority} | DLC: ${frame.dlc}",
+                    text = "Приоритет: ${frame.priority} | Длина данных: ${frame.dlc}",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     fontFamily = FontFamily.Monospace,

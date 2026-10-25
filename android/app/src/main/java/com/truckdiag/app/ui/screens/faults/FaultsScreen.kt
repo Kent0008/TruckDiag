@@ -116,7 +116,7 @@ fun FaultsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Обнаружено DTC: ${state.faults.size}",
+                    text = "Кодов неисправностей: ${state.faults.size}",
                     style = MaterialTheme.typography.titleSmall,
                     color = TextPrimary,
                     fontWeight = FontWeight.SemiBold
@@ -125,7 +125,7 @@ fun FaultsScreen(
                 TextButton(onClick = { viewModel.injectTestFault("COOLANT_OVERHEAT") }) {
                     Icon(Icons.Default.AddAlert, contentDescription = null, tint = StatusAmber, modifier = Modifier.size(14.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("+ Тест перегрева ДВС", fontSize = 11.sp, color = StatusAmber)
+                    Text("+ Проверить перегрев двигателя", fontSize = 11.sp, color = StatusAmber)
                 }
             }
 
@@ -200,7 +200,7 @@ fun FaultItemCard(fault: Fault) {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "ECU: ${fault.sourceEcu} | Статус: ${fault.status}",
+                text = "Блок управления: ${fault.sourceEcu} | Статус: ${LocalizedDtcStatus(fault.status)}",
                 style = MaterialTheme.typography.bodySmall,
                 color = AccentCyan
             )
@@ -238,7 +238,7 @@ fun FaultItemCard(fault: Fault) {
 
                 if (fault.simulated) {
                     Text(
-                        text = "[SIMULATED]",
+                        text = "[СИМУЛЯЦИЯ]",
                         style = MaterialTheme.typography.bodySmall,
                         color = StatusAmber,
                         fontFamily = FontFamily.Monospace,

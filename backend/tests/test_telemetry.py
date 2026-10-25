@@ -25,15 +25,17 @@ async def test_latest_telemetry(client: AsyncClient):
 
     # Validate parameters
     params = {p["name"]: p for p in data["parameters"]}
+    assert params["Engine Speed"]["name_ru"] == "Частота вращения двигателя"
+    assert params["Engine Speed"]["unit"] == "об/мин"
     assert "Engine Speed" in params
     assert "Vehicle Speed" in params
     assert "Engine Coolant Temperature" in params
     assert "Battery System Voltage" in params
     assert "Engine Oil Pressure" in params
 
-    assert params["Engine Speed"]["unit"] == "RPM"
+    assert params["Engine Speed"]["unit"] == "об/мин"
     assert params["Engine Coolant Temperature"]["unit"] == "°C"
-    assert params["Battery System Voltage"]["unit"] == "V"
+    assert params["Battery System Voltage"]["unit"] == "В"
 
 
 @pytest.mark.asyncio

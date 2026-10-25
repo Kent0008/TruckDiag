@@ -4,6 +4,8 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
+from sqlalchemy import inspect
+from sqlalchemy.engine import Connection
 from sqlalchemy.orm import DeclarativeBase
 from app.core.config import settings
 
@@ -27,6 +29,31 @@ class Base(DeclarativeBase):
     pass
 
 
+def _add_missing_fault_columns(connection: Connection) -> None:
+    table_name = "fault_records"
+    inspector = inspect(connection)
+    if not inspector.has_table(table_name):
+        return
+
+    existing_columns = {column["name"] for column in inspector.get_columns(table_name)}
+    missing_columns = {
+        "user_title": "VARCHAR(256) NOT NULL DEFAULT ''",
+        "explanation": "TEXT NOT NULL DEFAULT ''",
+        "symptoms": "TEXT NOT NULL DEFAULT ''",
+        "self_check_steps": "TEXT NOT NULL DEFAULT ''",
+        "specialist_steps": "TEXT NOT NULL DEFAULT ''",
+        "urgency": "VARCHAR(64) NOT NULL DEFAULT 'Средняя'",
+        "driving_recommendation": "TEXT NOT NULL DEFAULT ''",
+        "fidelity": "VARCHAR(128) NOT NULL DEFAULT 'База знаний TruckDiag'",
+    }
+
+    for column_name, column_definition in missing_columns.items():
+        if column_name not in existing_columns:
+            connection.exec_driver_sql(
+                f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_definition}"
+            )
+
+
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSessionLocal() as session:
         try:
@@ -42,3 +69,4 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 async def init_db() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+        await conn.run_sync(_add_missing_fault_columns)

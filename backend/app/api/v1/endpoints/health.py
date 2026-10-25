@@ -43,8 +43,8 @@ async def get_system_info():
             "RP1210_PASSTHRU (Prepared)",
         ],
         supported_truck_platforms=[
-            "Scania R/S-Series (2019-2023 Euro 6)",
-            "Volvo FH Series (2014+ J1939 Architecture)",
+            "Scania серии R/S (2019–2023, Euro 6)",
+            "Volvo FH (с 2014 года, архитектура J1939)",
         ],
         environment="local_development",
     )

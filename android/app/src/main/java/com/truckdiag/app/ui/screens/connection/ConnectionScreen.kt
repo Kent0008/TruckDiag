@@ -56,7 +56,7 @@ fun ConnectionScreen(
                 OutlinedTextField(
                     value = state.apiUrl,
                     onValueChange = { viewModel.onUrlChanged(it) },
-                    label = { Text("URL") },
+                    label = { Text("Адрес сервера") },
                     placeholder = { Text(stringResource(R.string.api_url_hint)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -90,7 +90,7 @@ fun ConnectionScreen(
 
                     AssistChip(
                         onClick = { viewModel.applyPreset("http://192.168.1.100:8000/") },
-                        label = { Text("Wi-Fi LAN") },
+                        label = { Text("Локальная сеть Wi-Fi") },
                         colors = AssistChipDefaults.assistChipColors(containerColor = SurfaceDark)
                     )
                 }
@@ -154,8 +154,8 @@ fun ConnectionScreen(
             // Connection tips card
             DiagnosticCard(title = "Инструкция по подключению") {
                 Text(
-                    text = "• Эмулятор Android Studio: адрес 'http://10.0.2.2:8000'\n" +
-                           "• Физический смартфон: запустите backend на ПК, подключите телефон и ПК к одной Wi-Fi сети и укажите IP ПК, например: 'http://192.168.0.105:8000'\n" +
+                          text = "• Эмулятор Android Studio: адрес 'http://10.0.2.2:8000'\n" +
+                              "• Смартфон: запустите сервер на компьютере, подключите оба устройства к одной сети Wi-Fi и укажите IP компьютера, например: 'http://192.168.0.105:8000'\n" +
                            "• Порт по умолчанию: 8000",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,

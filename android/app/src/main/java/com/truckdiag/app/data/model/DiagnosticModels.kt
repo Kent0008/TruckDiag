@@ -73,10 +73,13 @@ data class SessionStatus(
 @JsonClass(generateAdapter = true)
 data class TelemetryParameter(
     val name: String,
+    @Json(name = "name_ru") val nameRu: String = "",
     val value: Double,
     val unit: String,
     val quality: String = "GOOD",
     val category: String = "ENGINE",
+    @Json(name = "description_ru") val descriptionRu: String = "",
+    @Json(name = "normal_range") val normalRange: String = "",
     val simulated: Boolean = true
 )
 

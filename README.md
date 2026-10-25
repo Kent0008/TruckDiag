@@ -125,6 +125,14 @@ android\app\build\outputs\apk\debug\app-debug.apk
 ```
 Вы можете скопировать этот файл на телефон или перетащить мышкой в окно Android Emulator.
 
+### Запуск Android unit-тестов
+Перед установкой debug-версии Android Studio автоматически запускает `testDebugUnitTest`. Тесты проверяют JSON-контракт Retrofit для системной информации, сеансов, телеметрии, DTC, CAN/J1939 и отчётов.
+
+Для ручного запуска из папки `android` выполните:
+```cmd
+gradlew.bat :app:testDebugUnitTest
+```
+
 ### Способ Б: Запуск через Android Studio
 1. Запустите Android Studio.
 2. Выберите **Open** и укажите папку `D:\TruckDiag\android`.

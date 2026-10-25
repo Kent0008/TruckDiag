@@ -75,6 +75,22 @@ fun SeverityBadge(severity: String) {
         "WARNING" -> Pair(StatusAmber.copy(alpha = 0.2f), StatusAmber)
         else -> Pair(AccentCyan.copy(alpha = 0.2f), AccentCyan)
     }
+    val displayText = when (severity.uppercase()) {
+        "CRITICAL" -> stringResource(R.string.severity_critical)
+        "WARNING" -> stringResource(R.string.severity_warning)
+        "INFO" -> stringResource(R.string.severity_info)
+        "ACTIVE" -> stringResource(R.string.fault_active)
+        "PREVIOUSLY_ACTIVE" -> stringResource(R.string.fault_previously_active)
+        "PENDING" -> stringResource(R.string.fault_pending)
+        "CREATED" -> stringResource(R.string.session_created)
+        "RUNNING" -> stringResource(R.string.session_running)
+        "STOPPED" -> stringResource(R.string.session_stopped)
+        "ENGINE_OFF" -> stringResource(R.string.engine_off)
+        "IDLE" -> stringResource(R.string.engine_idle)
+        "DRIVING" -> stringResource(R.string.engine_driving)
+        "STOPPING" -> stringResource(R.string.engine_stopping)
+        else -> severity.uppercase()
+    }
 
     Box(
         modifier = Modifier
@@ -83,13 +99,75 @@ fun SeverityBadge(severity: String) {
             .padding(horizontal = 6.dp, vertical = 2.dp)
     ) {
         Text(
-            text = severity.uppercase(),
+            text = displayText,
             color = textColor,
             fontSize = 10.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.Monospace
         )
     }
+}
+
+@Composable
+fun LocalizedDtcStatus(status: String): String = when (status.uppercase()) {
+    "ACTIVE" -> stringResource(R.string.fault_active)
+    "PREVIOUSLY_ACTIVE" -> stringResource(R.string.fault_previously_active)
+    "PENDING" -> stringResource(R.string.fault_pending)
+    else -> status
+}
+
+@Composable
+fun LocalizedPgnName(pgn: Int, fallback: String): String = when (pgn) {
+    61444 -> stringResource(R.string.pgn_eec1)
+    61443 -> stringResource(R.string.pgn_eec2)
+    65262 -> stringResource(R.string.pgn_et1)
+    65265 -> stringResource(R.string.pgn_ccvs1)
+    65271 -> stringResource(R.string.pgn_vep1)
+    61445 -> stringResource(R.string.pgn_etc2)
+    65274 -> stringResource(R.string.pgn_air1)
+    65263 -> stringResource(R.string.pgn_eflp1)
+    65276 -> stringResource(R.string.pgn_dd)
+    65226 -> stringResource(R.string.pgn_dm1)
+    else -> fallback
+}
+
+fun LocalizedSourceName(sourceAddress: Int): String = when (sourceAddress) {
+    0x00 -> "Двигатель №1 (EMS)"
+    0x01 -> "Двигатель №2"
+    0x03 -> "Коробка передач (GMS)"
+    0x0B -> "Тормозная система (EBS)"
+    0x17 -> "Панель приборов"
+    0x21 -> "Координатор систем (COO)"
+    0xFF -> "Общая рассылка"
+    else -> "Блок управления 0x${sourceAddress.toString(16).uppercase().padStart(2, '0')}"
+}
+
+fun LocalizedSpnName(spn: Int, fallback: String): String = when (spn) {
+    513 -> "Фактический крутящий момент двигателя"
+    190 -> "Частота вращения двигателя"
+    92 -> "Нагрузка двигателя при текущих оборотах"
+    110 -> "Температура охлаждающей жидкости"
+    84 -> "Скорость автомобиля по колёсам"
+    168 -> "Напряжение бортовой сети"
+    523 -> "Текущая передача коробки передач"
+    100 -> "Давление моторного масла"
+    117 -> "Давление в тормозном контуре 1"
+    96 -> "Уровень топлива"
+    else -> if (fallback.startsWith("Active DTC")) "Активный код неисправности" else fallback
+}
+
+fun LocalizedSpnDescription(spn: Int, fallback: String): String = when (spn) {
+    513 -> "Расчётный крутящий момент двигателя относительно номинального значения."
+    190 -> "Фактическая частота вращения коленчатого вала двигателя."
+    92 -> "Нагрузка двигателя относительно доступного крутящего момента при текущих оборотах."
+    110 -> "Температура охлаждающей жидкости в системе охлаждения двигателя."
+    84 -> "Скорость движения автомобиля по данным датчиков колёс или оси."
+    168 -> "Напряжение бортовой сети или аккумуляторных батарей."
+    523 -> "Текущая включённая передача коробки передач."
+    100 -> "Давление масла в системе смазки двигателя."
+    117 -> "Давление воздуха в первом контуре тормозной системы."
+    96 -> "Уровень топлива в основном топливном баке."
+    else -> if (fallback.startsWith("DTC reported via DM1")) "Код неисправности передан в сообщении DM1." else fallback
 }
 
 @Composable

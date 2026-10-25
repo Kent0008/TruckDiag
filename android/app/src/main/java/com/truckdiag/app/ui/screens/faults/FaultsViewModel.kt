@@ -72,7 +72,7 @@ class FaultsViewModel(
                     _uiState.value = _uiState.value.copy(
                         faults = scanRes.data.faults,
                         scannedEcus = scanRes.data.scannedEcus,
-                        infoMessage = "Сканирование завершено. Опрошено ${scanRes.data.scannedEcus.size} блоков ECU."
+                        infoMessage = "Сканирование завершено. Опрошено блоков управления: ${scanRes.data.scannedEcus.size}."
                     )
                 }
                 is NetworkResult.Error -> {
