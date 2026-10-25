@@ -2,6 +2,7 @@ package com.truckdiag.app.ui.screens.connection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.truckdiag.app.R
 import com.truckdiag.app.data.remote.ApiClient
 import com.truckdiag.app.data.repository.NetworkResult
 import com.truckdiag.app.data.repository.TruckDiagRepository
@@ -50,7 +51,7 @@ class ConnectionViewModel(
                     _uiState.value = _uiState.value.copy(
                         isTesting = false,
                         testSuccess = true,
-                        statusMessage = "Связь с сервером TruckDiag установлена. Версия API: ${res.data.version}",
+                        statusMessage = ApiClient.getLocalizedString(R.string.connection_success_version, res.data.version),
                         apiVersion = res.data.version
                     )
                 }

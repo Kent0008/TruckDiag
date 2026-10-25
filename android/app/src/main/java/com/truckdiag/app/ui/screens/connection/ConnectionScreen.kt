@@ -56,7 +56,7 @@ fun ConnectionScreen(
                 OutlinedTextField(
                     value = state.apiUrl,
                     onValueChange = { viewModel.onUrlChanged(it) },
-                    label = { Text("Адрес сервера") },
+                    label = { Text(stringResource(R.string.connection_server_address)) },
                     placeholder = { Text(stringResource(R.string.api_url_hint)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
@@ -71,7 +71,7 @@ fun ConnectionScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Быстрые шаблоны:",
+                    text = stringResource(R.string.connection_presets),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary
                 )
@@ -84,13 +84,13 @@ fun ConnectionScreen(
                 ) {
                     AssistChip(
                         onClick = { viewModel.applyPreset("http://10.0.2.2:8000/") },
-                        label = { Text("10.0.2.2 (Эмулятор)") },
+                        label = { Text(stringResource(R.string.connection_emulator_preset, "10.0.2.2:8000")) },
                         colors = AssistChipDefaults.assistChipColors(containerColor = SurfaceDark)
                     )
 
                     AssistChip(
                         onClick = { viewModel.applyPreset("http://192.168.1.100:8000/") },
-                        label = { Text("Локальная сеть Wi-Fi") },
+                        label = { Text(stringResource(R.string.connection_wifi_preset)) },
                         colors = AssistChipDefaults.assistChipColors(containerColor = SurfaceDark)
                     )
                 }
@@ -123,8 +123,13 @@ fun ConnectionScreen(
             }
 
             // Result status banner
-            state.statusMessage?.let { msg ->
-                val isSuccess = state.testSuccess == true
+            state.testSuccess?.let { success ->
+                val msg = if (success) {
+                    stringResource(R.string.connection_success_version, state.apiVersion.orEmpty())
+                } else {
+                    stringResource(R.string.connection_error)
+                }
+                val isSuccess = success
                 val cardColor = if (isSuccess) StatusGreen.copy(alpha = 0.15f) else StatusRed.copy(alpha = 0.15f)
                 val borderColor = if (isSuccess) StatusGreen else StatusRed
 
@@ -152,11 +157,9 @@ fun ConnectionScreen(
             }
 
             // Connection tips card
-            DiagnosticCard(title = "Инструкция по подключению") {
+            DiagnosticCard(title = stringResource(R.string.connection_help_title)) {
                 Text(
-                          text = "• Эмулятор Android Studio: адрес 'http://10.0.2.2:8000'\n" +
-                              "• Смартфон: запустите сервер на компьютере, подключите оба устройства к одной сети Wi-Fi и укажите IP компьютера, например: 'http://192.168.0.105:8000'\n" +
-                           "• Порт по умолчанию: 8000",
+                    text = stringResource(R.string.connection_help_text),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     lineHeight = 20.sp

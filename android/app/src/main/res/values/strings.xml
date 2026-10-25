@@ -26,6 +26,11 @@
     <string name="scan">Сканировать</string>
     <string name="export">Экспорт</string>
     <string name="details">Подробнее</string>
+    <string name="language_title">Язык приложения</string>
+    <string name="language_dialog_title">Выберите язык</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_kyrgyz">Кыргызча</string>
+    <string name="language_change_action">Изменить</string>
 
     <!-- Home Screen -->
     <string name="home_title">TruckDiag · диагностика J1939</string>
@@ -37,7 +42,24 @@
     <string name="no_active_session">Активный сеанс не выбран</string>
     <string name="create_session_prompt">Создайте новый сеанс или запустите демо</string>
     <string name="btn_start_demo">Быстрый запуск деморежима</string>
+    <string name="demo_operator_name">Демонстрационный режим</string>
+    <string name="demo_session_notes">Автоматический запуск симуляции Scania R500 J1939</string>
     <string name="btn_open_connection">Настройки подключения</string>
+    <string name="session_id_short">Сеанс: %1$s…</string>
+    <string name="session_truck_line">Автомобиль: %1$s %2$s</string>
+    <string name="truck_model_line">%1$s %2$s</string>
+    <string name="default_truck_brand">Scania</string>
+    <string name="default_truck_model">R500</string>
+    <string name="diagnostic_features">Диагностические функции</string>
+    <string name="decoder_shortcut_subtitle">Разбор SPN/PGN</string>
+    <string name="can_shortcut_subtitle">CAN 2.0B / J1939</string>
+    <string name="sessions_shortcut_subtitle">История и состояние</string>
+    <string name="reports_shortcut_subtitle">Экспорт в JSON</string>
+    <string name="platform_protocols_title">Платформа и протоколы</string>
+    <string name="api_version_line">Версия API: %1$s | %2$s</string>
+    <string name="supported_platforms_line">Поддерживаемые платформы: %1$s</string>
+    <string name="platform_scania_rs">Scania серии R/S (2019–2023, Euro 6)</string>
+    <string name="platform_volvo_fh">Volvo FH (с 2014 года, архитектура J1939)</string>
 
     <!-- Connection Screen -->
     <string name="connection_title">Параметры соединения</string>
@@ -48,6 +70,13 @@
     <string name="btn_check_connection">Проверить связь с сервером</string>
     <string name="connection_success">Связь с сервером успешно установлена!</string>
     <string name="connection_error">Не удалось связаться с сервером. Проверьте адрес и убедитесь, что сервер запущен.</string>
+    <string name="connection_server_address">Адрес сервера</string>
+    <string name="connection_presets">Быстрые шаблоны:</string>
+    <string name="connection_emulator_preset">Эмулятор Android (%1$s)</string>
+    <string name="connection_wifi_preset">Локальная сеть Wi-Fi</string>
+    <string name="connection_success_version">Связь с сервером TruckDiag установлена. Версия API: %1$s</string>
+    <string name="connection_help_title">Инструкция по подключению</string>
+    <string name="connection_help_text">• Эмулятор Android Studio: адрес http://10.0.2.2:8000\n• Смартфон: запустите сервер на компьютере, подключите оба устройства к одной сети Wi-Fi и укажите IP компьютера, например http://192.168.0.105:8000\n• Порт по умолчанию: 8000</string>
 
     <!-- Live Data Screen -->
     <string name="live_data_title">Телеметрия в реальном времени</string>
@@ -58,6 +87,11 @@
     <string name="category_transmission">КПП</string>
     <string name="category_brakes">Тормоза / Пневматика</string>
     <string name="category_electrical">Электрика</string>
+    <string name="engine_mode_label">Режим двигателя:</string>
+    <string name="engine_state_idle_label">Холостой ход</string>
+    <string name="engine_state_driving_label">Движение</string>
+    <string name="engine_state_stopping_label">Торможение</string>
+    <string name="engine_state_off_label">Заглушен</string>
 
     <!-- Faults Screen -->
     <string name="faults_title">Диагностические коды неисправностей (DTC)</string>
@@ -77,6 +111,12 @@
     <string name="fault_active">АКТИВНА</string>
     <string name="fault_previously_active">БЫЛА АКТИВНА</string>
     <string name="fault_pending">ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ</string>
+    <string name="fault_count_label">Кодов неисправностей</string>
+    <string name="fault_test_overheat">+ Проверить перегрев двигателя</string>
+    <string name="ecu_label">Блок управления: %1$s | Статус: %2$s</string>
+    <string name="possible_causes_label">Возможные причины: %1$s</string>
+    <string name="simulation_label">[СИМУЛЯЦИЯ]</string>
+    <string name="fault_scan_complete">Сканирование завершено. Опрошено блоков управления: %1$d.</string>
     <string name="pgn_eec1">Контроллер двигателя 1 (EEC1)</string>
     <string name="pgn_eec2">Контроллер двигателя 2 (EEC2)</string>
     <string name="pgn_et1">Температура двигателя (ET1)</string>
@@ -87,16 +127,52 @@
     <string name="pgn_eflp1">Давление масла (EFL/P1)</string>
     <string name="pgn_dd">Уровень топлива (DD)</string>
     <string name="pgn_dm1">Активные коды неисправностей (DM1)</string>
+    <string name="source_engine_1">Двигатель №1 (EMS)</string>
+    <string name="source_engine_2">Двигатель №2</string>
+    <string name="source_transmission">Коробка передач (GMS)</string>
+    <string name="source_brakes">Тормозная система (EBS)</string>
+    <string name="source_instrument_cluster">Панель приборов</string>
+    <string name="source_coordinator">Координатор систем (COO)</string>
+    <string name="source_broadcast">Общая рассылка</string>
+    <string name="source_unknown">Блок управления 0x%1$s</string>
+    <string name="spn_513_name">Фактический крутящий момент двигателя</string>
+    <string name="spn_190_name">Частота вращения двигателя</string>
+    <string name="spn_92_name">Нагрузка двигателя при текущих оборотах</string>
+    <string name="spn_110_name">Температура охлаждающей жидкости</string>
+    <string name="spn_84_name">Скорость автомобиля по колёсам</string>
+    <string name="spn_168_name">Напряжение бортовой сети</string>
+    <string name="spn_523_name">Текущая передача коробки передач</string>
+    <string name="spn_100_name">Давление моторного масла</string>
+    <string name="spn_117_name">Давление в тормозном контуре 1</string>
+    <string name="spn_96_name">Уровень топлива</string>
+    <string name="spn_unknown_name">Параметр SPN</string>
+    <string name="spn_513_description">Расчётный крутящий момент двигателя относительно номинального значения.</string>
+    <string name="spn_190_description">Фактическая частота вращения коленчатого вала двигателя.</string>
+    <string name="spn_92_description">Нагрузка двигателя относительно доступного крутящего момента при текущих оборотах.</string>
+    <string name="spn_110_description">Температура охлаждающей жидкости в системе охлаждения двигателя.</string>
+    <string name="spn_84_description">Скорость движения автомобиля по данным датчиков колёс или оси.</string>
+    <string name="spn_168_description">Напряжение бортовой сети или аккумуляторных батарей.</string>
+    <string name="spn_523_description">Текущая включённая передача коробки передач.</string>
+    <string name="spn_100_description">Давление масла в системе смазки двигателя.</string>
+    <string name="spn_117_description">Давление воздуха в первом контуре тормозной системы.</string>
+    <string name="spn_96_description">Уровень топлива в основном топливном баке.</string>
+    <string name="spn_unknown_description">Описание этого параметра отсутствует.</string>
+    <string name="dtc_active_name">Активный код неисправности</string>
+    <string name="dtc_active_description">Код неисправности передан в сообщении DM1.</string>
     <string name="spn_label">SPN: %1$d | FMI: %2$d | Счётчик: %3$d</string>
 
     <!-- CAN Bus Screen -->
     <string name="can_bus_title">Монитор CAN / J1939</string>
-    <string name="can_frames_count">Кадров в буфере: %1$d</string>
     <string name="can_id_label">CAN ID: %1$s</string>
     <string name="pgn_label">PGN: %1$d (%2$s)</string>
     <string name="sa_label">Источник: 0x%1$02X (%2$s)</string>
     <string name="dlc_label">DLC: %1$d</string>
     <string name="payload_label">Данные: %1$s</string>
+    <string name="can_bus_standard_label">SAE J1939 · 29-битная шина CAN · 250 кбит/с</string>
+    <string name="pgn_group_label">Группа PGN: %1$d (%2$s)</string>
+    <string name="pgn_group_hex_label">Группа PGN: %1$d (%2$s) [%3$s]</string>
+    <string name="source_address_label">Адрес источника: 0x%1$s (%2$s)</string>
+    <string name="priority_data_length_label">Приоритет: %1$d | Длина данных: %2$d</string>
 
     <!-- Decoder Screen -->
     <string name="decoder_title">Декодер CAN / J1939 кадров</string>
@@ -108,6 +184,19 @@
     <string name="btn_sample_et1">Пример ET1 (Охл. жидкость)</string>
     <string name="btn_sample_ccvs">Пример CCVS (Скорость)</string>
     <string name="decoded_result_title">Результат декодирования:</string>
+    <string name="decoder_input_card_title">Параметры кадра CAN</string>
+    <string name="can_identifier_label">Идентификатор CAN (HEX)</string>
+    <string name="can_payload_label">Данные кадра (HEX)</string>
+    <string name="decoder_sample_prompt">Выберите пример кадра J1939:</string>
+    <string name="sample_eec1_label">EEC1 (Обороты)</string>
+    <string name="sample_et1_label">ET1 (ОЖ)</string>
+    <string name="sample_ccvs_label">CCVS (Скорость)</string>
+    <string name="can_decode_summary">Идентификатор CAN: %1$s | Приоритет: %2$d | Длина данных: %3$d</string>
+    <string name="decode_fidelity_verified">Проверено по SAE J1939</string>
+    <string name="decode_fidelity_unverified">Требуется проверка</string>
+    <string name="dtc_active_name_label">Активный код неисправности (SPN %1$d)</string>
+    <string name="spn_value_label">%1$s %2$s</string>
+    <string name="value_not_available">Нет данных</string>
 
     <!-- Sessions Screen -->
     <string name="sessions_title">История сеансов диагностики</string>
@@ -116,13 +205,37 @@
     <string name="session_operator_label">Специалист: %1$s</string>
     <string name="session_truck_label">Автомобиль: %1$s</string>
     <string name="session_created_label">Создан: %1$s</string>
+    <string name="sessions_empty">Сеансов пока нет. Нажмите «+» для создания.</string>
+    <string name="session_id_label">Сеанс: %1$s</string>
+    <string name="session_operator_line">Специалист: %1$s</string>
+    <string name="session_note_line">Заметка: %1$s</string>
+    <string name="session_start_button">Запустить</string>
+    <string name="session_stop_button">Остановить</string>
+    <string name="session_create_title">Новый диагностический сеанс</string>
+    <string name="session_choose_truck">Выберите грузовик:</string>
+    <string name="session_operator_hint">Инженер-диагност</string>
+    <string name="session_notes_hint">Комплексная диагностика CAN/J1939</string>
+    <string name="session_operator_field">Специалист</string>
+    <string name="session_notes_field">Заметки к сеансу</string>
+    <string name="create_button">Создать</string>
 
     <!-- Reports Screen -->
     <string name="reports_title">Диагностические отчёты</string>
     <string name="btn_create_report">Сформировать отчёт</string>
     <string name="reports_empty">Сохранённых отчётов пока нет</string>
-    <string name="report_faults_count">Ошибок зафиксировано: %1$d</string>
     <string name="report_exported_notice">Отчёт экспортирован в JSON</string>
+    <string name="report_truck_vin_line">%1$s | Идентификационный номер: %2$s</string>
+    <string name="report_open_action">Открыть отчёт →</string>
+    <string name="report_default_title">Отчёт диагностики Scania J1939</string>
+    <string name="report_default_notes">Плановый технический осмотр и считывание кодов неисправностей.</string>
+    <string name="report_create_title">Сформировать отчёт</string>
+    <string name="report_title_field">Заголовок отчёта</string>
+    <string name="report_notes_field">Заметки инженера</string>
+    <string name="report_vehicle_details">Автомобиль: %1$s\nИдентификационный номер (VIN): %2$s\nСпециалист: %3$s</string>
+    <string name="report_scan_summary">Итоги сканирования:</string>
+    <string name="close_button">Закрыть</string>
+    <string name="report_created_success">Отчёт «%1$s» успешно сформирован!</string>
+    <string name="report_active_session_required">Нет активного сеанса для отчёта</string>
 
     <!-- Settings Screen -->
     <string name="settings_title">Настройки и инфо</string>
@@ -131,4 +244,69 @@
     <string name="pref_about_title">О приложении TruckDiag</string>
     <string name="app_version_label">Версия: 1.0.0 (демонстрационный выпуск)</string>
     <string name="protocol_support_label">Протоколы: SAE J1939 / CAN 2.0B / симуляция Scania Euro 6</string>
+    <string name="current_api_address">Текущий адрес API: %1$s</string>
+    <string name="android_client_name">Клиент TruckDiag для Android</string>
+    <string name="app_architecture_text">Архитектура: Kotlin, Jetpack Compose, Material 3, MVVM, Coroutines и Flow, Retrofit 2, Moshi, OkHttp WebSocket.</string>
+    <string name="app_diagnostic_stack_text">Диагностический стек: SAE J1939, CAN 2.0B 29-bit, декодер PGN/SPN, симуляция ECU Scania DC13/DC16 Euro 6.</string>
+
+    <!-- Localized UI messages -->
+    <string name="error_api_unavailable">Сервер API недоступен</string>
+    <string name="error_system_info_load">Не удалось загрузить сведения о системе</string>
+    <string name="error_trucks_load">Не удалось загрузить список грузовиков</string>
+    <string name="error_session_create">Не удалось создать сеанс</string>
+    <string name="error_session_start">Не удалось запустить сеанс</string>
+    <string name="error_session_stop">Не удалось остановить сеанс</string>
+    <string name="error_sessions_load">Не удалось загрузить историю сеансов</string>
+    <string name="error_session_status">Не удалось получить состояние сеанса</string>
+    <string name="error_faults_scan">Не удалось просканировать коды неисправностей</string>
+    <string name="error_faults_load">Не удалось загрузить коды неисправностей</string>
+    <string name="error_can_frames_load">Не удалось загрузить кадры CAN</string>
+    <string name="error_can_decode">Не удалось декодировать кадр CAN</string>
+    <string name="error_report_create">Не удалось сформировать отчёт</string>
+    <string name="error_reports_load">Не удалось загрузить отчёты</string>
+    <string name="error_report_details">Не удалось загрузить сведения об отчёте</string>
+    <string name="error_unknown">Произошла ошибка</string>
+
+    <plurals name="can_frame_count">
+        <item quantity="one">В буфере %1$d кадр</item>
+        <item quantity="few">В буфере %1$d кадра</item>
+        <item quantity="many">В буфере %1$d кадров</item>
+        <item quantity="other">В буфере %1$d кадра</item>
+    </plurals>
+    <plurals name="fault_count">
+        <item quantity="one">Код неисправности: %1$d</item>
+        <item quantity="few">Кода неисправности: %1$d</item>
+        <item quantity="many">Кодов неисправностей: %1$d</item>
+        <item quantity="other">Кода неисправности: %1$d</item>
+    </plurals>
+    <plurals name="report_fault_count">
+        <item quantity="one">Зафиксирована %1$d ошибка</item>
+        <item quantity="few">Зафиксировано %1$d ошибки</item>
+        <item quantity="many">Зафиксировано %1$d ошибок</item>
+        <item quantity="other">Зафиксирована %1$d ошибка</item>
+    </plurals>
+    <plurals name="active_report_fault_count">
+        <item quantity="one">Активна %1$d ошибка</item>
+        <item quantity="few">Активны %1$d ошибки</item>
+        <item quantity="many">Активно %1$d ошибок</item>
+        <item quantity="other">Активна %1$d ошибка</item>
+    </plurals>
+    <plurals name="report_total_faults_count">
+        <item quantity="one">Всего %1$d неисправность</item>
+        <item quantity="few">Всего %1$d неисправности</item>
+        <item quantity="many">Всего %1$d неисправностей</item>
+        <item quantity="other">Всего %1$d неисправности</item>
+    </plurals>
+    <plurals name="report_active_faults_count">
+        <item quantity="one">Активна %1$d неисправность</item>
+        <item quantity="few">Активны %1$d неисправности</item>
+        <item quantity="many">Активно %1$d неисправностей</item>
+        <item quantity="other">Активна %1$d неисправность</item>
+    </plurals>
+    <plurals name="decoded_spn_count">
+        <item quantity="one">Расшифрованный параметр SPN: %1$d</item>
+        <item quantity="few">Расшифрованных параметра SPN: %1$d</item>
+        <item quantity="many">Расшифрованных параметров SPN: %1$d</item>
+        <item quantity="other">Расшифрованного параметра SPN: %1$d</item>
+    </plurals>
 </resources>

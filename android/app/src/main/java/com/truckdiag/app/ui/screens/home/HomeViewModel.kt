@@ -6,6 +6,8 @@ import com.truckdiag.app.data.model.DiagnosticSession
 import com.truckdiag.app.data.model.HealthStatus
 import com.truckdiag.app.data.model.SystemInfo
 import com.truckdiag.app.data.model.Truck
+import com.truckdiag.app.R
+import com.truckdiag.app.data.remote.ApiClient
 import com.truckdiag.app.data.repository.NetworkResult
 import com.truckdiag.app.data.repository.TruckDiagRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -86,8 +88,8 @@ class HomeViewModel(
             val truckId = _uiState.value.trucks.firstOrNull()?.id ?: "scania-r500-2021"
             when (val createRes = repository.createSession(
                 truckId = truckId,
-                operatorName = "Демонстрационный режим",
-                notes = "Автоматический запуск симуляции Scania R500 J1939"
+                operatorName = ApiClient.getLocalizedString(R.string.demo_operator_name),
+                notes = ApiClient.getLocalizedString(R.string.demo_session_notes)
             )) {
                 is NetworkResult.Success -> {
                     repository.startSession(createRes.data.id)

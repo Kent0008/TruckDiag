@@ -131,43 +131,74 @@ fun LocalizedPgnName(pgn: Int, fallback: String): String = when (pgn) {
     else -> fallback
 }
 
-fun LocalizedSourceName(sourceAddress: Int): String = when (sourceAddress) {
-    0x00 -> "Двигатель №1 (EMS)"
-    0x01 -> "Двигатель №2"
-    0x03 -> "Коробка передач (GMS)"
-    0x0B -> "Тормозная система (EBS)"
-    0x17 -> "Панель приборов"
-    0x21 -> "Координатор систем (COO)"
-    0xFF -> "Общая рассылка"
-    else -> "Блок управления 0x${sourceAddress.toString(16).uppercase().padStart(2, '0')}"
+@Composable
+fun LocalizedSourceName(sourceAddress: Int): String = if (sourceNameResourceId(sourceAddress) == R.string.source_unknown) {
+    stringResource(
+        R.string.source_unknown,
+        sourceAddress.toString(16).uppercase().padStart(2, '0')
+    )
+} else {
+    stringResource(sourceNameResourceId(sourceAddress))
 }
 
-fun LocalizedSpnName(spn: Int, fallback: String): String = when (spn) {
-    513 -> "Фактический крутящий момент двигателя"
-    190 -> "Частота вращения двигателя"
-    92 -> "Нагрузка двигателя при текущих оборотах"
-    110 -> "Температура охлаждающей жидкости"
-    84 -> "Скорость автомобиля по колёсам"
-    168 -> "Напряжение бортовой сети"
-    523 -> "Текущая передача коробки передач"
-    100 -> "Давление моторного масла"
-    117 -> "Давление в тормозном контуре 1"
-    96 -> "Уровень топлива"
-    else -> if (fallback.startsWith("Active DTC")) "Активный код неисправности" else fallback
+fun sourceNameResourceId(sourceAddress: Int): Int = when (sourceAddress) {
+    0x00 -> R.string.source_engine_1
+    0x01 -> R.string.source_engine_2
+    0x03 -> R.string.source_transmission
+    0x0B -> R.string.source_brakes
+    0x17 -> R.string.source_instrument_cluster
+    0x21 -> R.string.source_coordinator
+    0xFF -> R.string.source_broadcast
+    else -> R.string.source_unknown
 }
 
-fun LocalizedSpnDescription(spn: Int, fallback: String): String = when (spn) {
-    513 -> "Расчётный крутящий момент двигателя относительно номинального значения."
-    190 -> "Фактическая частота вращения коленчатого вала двигателя."
-    92 -> "Нагрузка двигателя относительно доступного крутящего момента при текущих оборотах."
-    110 -> "Температура охлаждающей жидкости в системе охлаждения двигателя."
-    84 -> "Скорость движения автомобиля по данным датчиков колёс или оси."
-    168 -> "Напряжение бортовой сети или аккумуляторных батарей."
-    523 -> "Текущая включённая передача коробки передач."
-    100 -> "Давление масла в системе смазки двигателя."
-    117 -> "Давление воздуха в первом контуре тормозной системы."
-    96 -> "Уровень топлива в основном топливном баке."
-    else -> if (fallback.startsWith("DTC reported via DM1")) "Код неисправности передан в сообщении DM1." else fallback
+fun spnNameResourceId(spn: Int): Int = when (spn) {
+    513 -> R.string.spn_513_name
+    190 -> R.string.spn_190_name
+    92 -> R.string.spn_92_name
+    110 -> R.string.spn_110_name
+    84 -> R.string.spn_84_name
+    168 -> R.string.spn_168_name
+    523 -> R.string.spn_523_name
+    100 -> R.string.spn_100_name
+    117 -> R.string.spn_117_name
+    96 -> R.string.spn_96_name
+    else -> R.string.spn_unknown_name
+}
+
+@Composable
+fun LocalizedSpnName(spn: Int, fallback: String): String = stringResource(
+    if (fallback.startsWith("Active DTC")) R.string.dtc_active_name else spnNameResourceId(spn)
+)
+
+fun spnDescriptionResourceId(spn: Int): Int = when (spn) {
+    513 -> R.string.spn_513_description
+    190 -> R.string.spn_190_description
+    92 -> R.string.spn_92_description
+    110 -> R.string.spn_110_description
+    84 -> R.string.spn_84_description
+    168 -> R.string.spn_168_description
+    523 -> R.string.spn_523_description
+    100 -> R.string.spn_100_description
+    117 -> R.string.spn_117_description
+    96 -> R.string.spn_96_description
+    else -> R.string.spn_unknown_description
+}
+
+@Composable
+fun LocalizedSpnDescription(spn: Int, fallback: String): String = stringResource(
+    if (fallback.startsWith("DTC reported via DM1")) {
+        R.string.dtc_active_description
+    } else {
+        spnDescriptionResourceId(spn)
+    }
+)
+
+@Composable
+fun LocalizedPlatformName(platform: String): String = when {
+    platform.startsWith("Scania") -> stringResource(R.string.platform_scania_rs)
+    platform.startsWith("Volvo FH") -> stringResource(R.string.platform_volvo_fh)
+    else -> platform
 }
 
 @Composable

@@ -70,7 +70,7 @@ fun SessionsScreen(
             } else if (state.sessions.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
-                        text = "Сеансов пока нет. Нажмите '+' для создания.",
+                        text = stringResource(R.string.sessions_empty),
                         color = TextSecondary,
                         style = MaterialTheme.typography.bodyMedium
                     )
@@ -132,7 +132,7 @@ fun SessionCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Сеанс: ${session.id.take(8)}",
+                    text = stringResource(R.string.session_id_label, session.id.take(8)),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = if (isSelected) PrimaryAmber else TextPrimary
@@ -143,20 +143,24 @@ fun SessionCard(
             Spacer(modifier = Modifier.height(6.dp))
 
             Text(
-                text = "Автомобиль: ${session.truck?.brand ?: "Scania"} ${session.truck?.model ?: "R500"}",
+                text = stringResource(
+                    R.string.session_truck_line,
+                    session.truck?.brand ?: stringResource(R.string.default_truck_brand),
+                    session.truck?.model ?: stringResource(R.string.default_truck_model)
+                ),
                 style = MaterialTheme.typography.bodyMedium,
                 color = AccentCyan
             )
 
             Text(
-                text = "Специалист: ${session.operatorName}",
+                text = stringResource(R.string.session_operator_line, session.operatorName),
                 style = MaterialTheme.typography.bodySmall,
                 color = TextSecondary
             )
 
             if (session.notes.isNotEmpty()) {
                 Text(
-                    text = "Заметка: ${session.notes}",
+                    text = stringResource(R.string.session_note_line, session.notes),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary
                 )
@@ -175,7 +179,7 @@ fun SessionCard(
                         colors = ButtonDefaults.buttonColors(containerColor = StatusRed),
                         modifier = Modifier.height(36.dp)
                     ) {
-                        Text("Остановить", fontSize = 12.sp)
+                        Text(stringResource(R.string.session_stop_button), fontSize = 12.sp)
                     }
                 } else {
                     Button(
@@ -183,7 +187,7 @@ fun SessionCard(
                         colors = ButtonDefaults.buttonColors(containerColor = StatusGreen),
                         modifier = Modifier.height(36.dp)
                     ) {
-                        Text("Запустить", fontSize = 12.sp, color = BgDark, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.session_start_button), fontSize = 12.sp, color = BgDark, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -197,16 +201,18 @@ fun CreateSessionDialog(
     onDismiss: () -> Unit,
     onConfirm: (truckId: String, operator: String, notes: String) -> Unit
 ) {
+    val operatorHint = stringResource(R.string.session_operator_hint)
+    val notesHint = stringResource(R.string.session_notes_hint)
     var selectedTruckId by remember { mutableStateOf(trucks.firstOrNull()?.id ?: "scania-r500-2021") }
-    var operator by remember { mutableStateOf("Инженер-диагност") }
-    var notes by remember { mutableStateOf("Комплексная диагностика CAN/J1939") }
+    var operator by remember { mutableStateOf(operatorHint) }
+    var notes by remember { mutableStateOf(notesHint) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Новый диагностический сеанс", color = TextPrimary) },
+        title = { Text(stringResource(R.string.session_create_title), color = TextPrimary) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                Text("Выберите грузовик:", style = MaterialTheme.typography.bodySmall, color = TextSecondary)
+                Text(stringResource(R.string.session_choose_truck), style = MaterialTheme.typography.bodySmall, color = TextSecondary)
                 trucks.forEach { t ->
                     Row(
                         modifier = Modifier
@@ -220,14 +226,18 @@ fun CreateSessionDialog(
                             onClick = { selectedTruckId = t.id }
                         )
                         Spacer(modifier = Modifier.width(6.dp))
-                        Text("${t.brand} ${t.model}", style = MaterialTheme.typography.bodyMedium, color = TextPrimary)
+                        Text(
+                            stringResource(R.string.truck_model_line, t.brand, t.model),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = TextPrimary
+                        )
                     }
                 }
 
                 OutlinedTextField(
                     value = operator,
                     onValueChange = { operator = it },
-                    label = { Text("Специалист") },
+                    label = { Text(stringResource(R.string.session_operator_field)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -235,7 +245,7 @@ fun CreateSessionDialog(
                 OutlinedTextField(
                     value = notes,
                     onValueChange = { notes = it },
-                    label = { Text("Заметки к сеансу") },
+                    label = { Text(stringResource(R.string.session_notes_field)) },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -245,12 +255,12 @@ fun CreateSessionDialog(
                 onClick = { onConfirm(selectedTruckId, operator, notes) },
                 colors = ButtonDefaults.buttonColors(containerColor = PrimaryAmber)
             ) {
-                Text("Создать", color = BgDark, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.create_button), color = BgDark, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Отмена", color = TextSecondary)
+                Text(stringResource(R.string.cancel), color = TextSecondary)
             }
         },
         containerColor = SurfaceDark

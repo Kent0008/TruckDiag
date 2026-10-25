@@ -3,6 +3,8 @@ package com.truckdiag.app.ui.screens.faults
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.truckdiag.app.data.model.Fault
+import com.truckdiag.app.R
+import com.truckdiag.app.data.remote.ApiClient
 import com.truckdiag.app.data.repository.NetworkResult
 import com.truckdiag.app.data.repository.TruckDiagRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,7 +74,10 @@ class FaultsViewModel(
                     _uiState.value = _uiState.value.copy(
                         faults = scanRes.data.faults,
                         scannedEcus = scanRes.data.scannedEcus,
-                        infoMessage = "Сканирование завершено. Опрошено блоков управления: ${scanRes.data.scannedEcus.size}."
+                        infoMessage = ApiClient.getLocalizedString(
+                            R.string.fault_scan_complete,
+                            scanRes.data.scannedEcus.size
+                        )
                     )
                 }
                 is NetworkResult.Error -> {
