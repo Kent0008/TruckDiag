@@ -50,7 +50,7 @@ class ConnectionViewModel(
                     _uiState.value = _uiState.value.copy(
                         isTesting = false,
                         testSuccess = true,
-                        statusMessage = "Успешное подключение к TruckDiag API v${res.data.version}",
+                        statusMessage = "Связь с сервером TruckDiag установлена. Версия API: ${res.data.version}",
                         apiVersion = res.data.version
                     )
                 }

@@ -24,6 +24,10 @@ import androidx.navigation.NavController
 import com.truckdiag.app.R
 import com.truckdiag.app.ui.components.DiagnosticCard
 import com.truckdiag.app.ui.components.SimulatedBadge
+import com.truckdiag.app.ui.components.LocalizedPgnName
+import com.truckdiag.app.ui.components.LocalizedSourceName
+import com.truckdiag.app.ui.components.LocalizedSpnName
+import com.truckdiag.app.ui.components.LocalizedSpnDescription
 import com.truckdiag.app.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,11 +64,11 @@ fun DecoderScreen(
                 color = TextSecondary
             )
 
-            DiagnosticCard(title = "Входные параметры CAN кадра") {
+            DiagnosticCard(title = "Параметры кадра CAN") {
                 OutlinedTextField(
                     value = state.inputCanId,
                     onValueChange = { viewModel.onCanIdChanged(it) },
-                    label = { Text("CAN ID (HEX)") },
+                    label = { Text("Идентификатор CAN (HEX)") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -80,7 +84,7 @@ fun DecoderScreen(
                 OutlinedTextField(
                     value = state.inputPayload,
                     onValueChange = { viewModel.onPayloadChanged(it) },
-                    label = { Text("Payload (HEX)") },
+                    label = { Text("Данные кадра (HEX)") },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -94,7 +98,7 @@ fun DecoderScreen(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Загрузить проверенный образец J1939:",
+                    text = "Выберите пример кадра J1939:",
                     style = MaterialTheme.typography.labelSmall,
                     color = TextSecondary
                 )
@@ -163,7 +167,7 @@ fun DecoderScreen(
             state.result?.let { res ->
                 DiagnosticCard(title = stringResource(R.string.decoded_result_title)) {
                     Text(
-                        text = "CAN ID: ${res.canIdHex} | Приоритет: ${res.priority} | DLC: ${res.dlc}",
+                        text = "Идентификатор CAN: ${res.canIdHex} | Приоритет: ${res.priority} | Длина данных: ${res.dlc}",
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
                         color = AccentCyan,
@@ -173,20 +177,20 @@ fun DecoderScreen(
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
-                        text = "PGN: ${res.pgn} (${res.pgnName}) [${res.pgnHex}]",
+                        text = "Группа PGN: ${res.pgn} (${LocalizedPgnName(res.pgn, res.pgnName)}) [${res.pgnHex}]",
                         style = MaterialTheme.typography.bodyMedium,
                         color = PrimaryAmberLight,
                         fontWeight = FontWeight.SemiBold
                     )
 
                     Text(
-                        text = "Источник SA: 0x${res.sourceAddress.toString(16).uppercase()} (${res.sourceName})",
+                        text = "Адрес источника: 0x${res.sourceAddress.toString(16).uppercase()} (${LocalizedSourceName(res.sourceAddress)})",
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary
                     )
 
                     Text(
-                        text = "Уровень достоверности: ${res.fidelity}",
+                        text = "Достоверность данных: ${if (res.fidelity.startsWith("VERIFIED")) "проверено по SAE J1939" else "требуется проверка"}",
                         style = MaterialTheme.typography.bodySmall,
                         color = StatusGreen
                     )
@@ -194,7 +198,7 @@ fun DecoderScreen(
                     Spacer(modifier = Modifier.height(14.dp))
 
                     Text(
-                        text = "Декодированные параметры SPN (${res.decodedSpns.size}):",
+                        text = "Расшифрованные параметры SPN (${res.decodedSpns.size}):",
                         style = MaterialTheme.typography.titleSmall,
                         color = TextPrimary,
                         fontWeight = FontWeight.Bold
@@ -215,13 +219,13 @@ fun DecoderScreen(
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
                                     Text(
-                                        text = "${spn.name} (SPN ${spn.spn})",
+                                        text = "${if (spn.unit == "DTC") "Активный код неисправности" else LocalizedSpnName(spn.spn, spn.name)} (SPN ${spn.spn})",
                                         style = MaterialTheme.typography.bodyMedium,
                                         fontWeight = FontWeight.Bold,
                                         color = TextPrimary
                                     )
                                     Text(
-                                        text = "${spn.scaledValue ?: "N/A"} ${spn.unit}",
+                                        text = "${spn.scaledValue ?: "нет данных"} ${spn.unit}",
                                         style = MaterialTheme.typography.bodyMedium,
                                         fontWeight = FontWeight.Bold,
                                         color = StatusGreen,
@@ -230,7 +234,7 @@ fun DecoderScreen(
                                 }
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
-                                    text = spn.description,
+                                    text = if (spn.unit == "DTC") "Код неисправности передан в сообщении DM1." else LocalizedSpnDescription(spn.spn, spn.description),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = TextSecondary,
                                     fontSize = 11.sp

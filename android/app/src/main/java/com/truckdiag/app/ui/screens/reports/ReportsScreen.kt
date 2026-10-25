@@ -190,7 +190,7 @@ fun ReportCardItem(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "${report.truckModel} | VIN: ${report.truckVin}",
+                text = "${report.truckModel} | Идентификационный номер: ${report.truckVin}",
                 style = MaterialTheme.typography.bodySmall,
                 color = AccentCyan
             )
@@ -218,7 +218,7 @@ fun ReportCardItem(
                 )
 
                 Text(
-                    text = "Подробнее →",
+                    text = "Открыть отчёт →",
                     style = MaterialTheme.typography.labelSmall,
                     color = PrimaryAmber
                 )
@@ -233,7 +233,7 @@ fun CreateReportDialog(
     onConfirm: (title: String, notes: String) -> Unit
 ) {
     var title by remember { mutableStateOf("Отчёт диагностики Scania J1939") }
-    var notes by remember { mutableStateOf("Плановый технический осмотр и считывание DTC кодов.") }
+    var notes by remember { mutableStateOf("Плановый технический осмотр и считывание кодов неисправностей.") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -290,7 +290,7 @@ fun ReportDetailModal(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "Автомобиль: ${detail.truckModel}\nVIN: ${detail.truckVin}\nСпециалист: ${detail.operatorName}",
+                    text = "Автомобиль: ${detail.truckModel}\nИдентификационный номер (VIN): ${detail.truckVin}\nСпециалист: ${detail.operatorName}",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextPrimary
                 )
@@ -305,7 +305,7 @@ fun ReportDetailModal(
                 )
 
                 Text(
-                    text = "Всего DTC: ${detail.totalFaults} | Активных: ${detail.activeFaults}",
+                    text = "Всего кодов неисправностей: ${detail.totalFaults} | Активных: ${detail.activeFaults}",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary
                 )

@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">TruckDiag</string>
     <string name="nav_home">Главная</string>
-    <string name="nav_livedata">Live Data</string>
-    <string name="nav_faults">DTC Коды</string>
-    <string name="nav_canbus">CAN Шина</string>
+    <string name="nav_livedata">Телеметрия</string>
+    <string name="nav_faults">Коды неисправностей</string>
+    <string name="nav_canbus">Шина CAN</string>
     <string name="nav_decoder">Декодер</string>
     <string name="nav_sessions">Сеансы</string>
     <string name="nav_reports">Отчёты</string>
@@ -16,7 +16,7 @@
     <string name="status_connecting">Подключение...</string>
     <string name="status_disconnected">Нет связи с API</string>
     <string name="status_simulated">ДЕМО / СИМУЛЯЦИЯ</string>
-    <string name="simulated_disclaimer">Виртуальный режим: прямое подключение к физическому ECU автомобиля отсутствует</string>
+    <string name="simulated_disclaimer">Виртуальный режим: прямое подключение к электронным блокам автомобиля отсутствует</string>
     <string name="last_updated">Обновлено: %1$s</string>
     <string name="retry">Повторить</string>
     <string name="save">Сохранить</string>
@@ -28,7 +28,7 @@
     <string name="details">Подробнее</string>
 
     <!-- Home Screen -->
-    <string name="home_title">TruckDiag Scania J1939</string>
+    <string name="home_title">TruckDiag · диагностика J1939</string>
     <string name="home_subtitle">Диагностический комплекс грузовых автомобилей</string>
     <string name="api_status_card_title">Состояние API сервера</string>
     <string name="active_session_card_title">Текущий диагностический сеанс</string>
@@ -47,12 +47,12 @@
     <string name="api_preset_lan">Локальная сеть Wi-Fi (IP компьютера)</string>
     <string name="btn_check_connection">Проверить связь с сервером</string>
     <string name="connection_success">Связь с сервером успешно установлена!</string>
-    <string name="connection_error">Ошибка связи с сервером. Проверьте адрес и запуск backend.</string>
+    <string name="connection_error">Не удалось связаться с сервером. Проверьте адрес и убедитесь, что сервер запущен.</string>
 
     <!-- Live Data Screen -->
     <string name="live_data_title">Телеметрия в реальном времени</string>
-    <string name="live_stream_active">WebSocket поток активен</string>
-    <string name="live_stream_polling">Резервный REST опрос (Polling)</string>
+    <string name="live_stream_active">Поток WebSocket активен</string>
+    <string name="live_stream_polling">Резервный опрос через API</string>
     <string name="category_all">Все</string>
     <string name="category_engine">Двигатель</string>
     <string name="category_transmission">КПП</string>
@@ -61,12 +61,32 @@
 
     <!-- Faults Screen -->
     <string name="faults_title">Диагностические коды неисправностей (DTC)</string>
-    <string name="faults_scan_button">Запустить сканирование ECU</string>
+    <string name="faults_scan_button">Сканировать электронные блоки</string>
     <string name="faults_empty">Активных кодов неисправностей не обнаружено</string>
-    <string name="faults_simulated_scan_notice">Сканирование симулированных блоков управления (EMS, COO8, GMS, EBS)</string>
-    <string name="severity_critical">КРИТИЧЕСКИЙ</string>
+    <string name="faults_simulated_scan_notice">Опрос виртуальных блоков управления (EMS, COO8, GMS, EBS)</string>
+    <string name="severity_critical">КРИТИЧНО</string>
     <string name="severity_warning">ПРЕДУПРЕЖДЕНИЕ</string>
-    <string name="severity_info">ИНФО</string>
+    <string name="severity_info">ИНФОРМАЦИЯ</string>
+    <string name="session_created">СОЗДАН</string>
+    <string name="session_running">АКТИВЕН</string>
+    <string name="session_stopped">ОСТАНОВЛЕН</string>
+    <string name="engine_off">ЗАГЛУШЕН</string>
+    <string name="engine_idle">ХОЛОСТОЙ ХОД</string>
+    <string name="engine_driving">ДВИЖЕНИЕ</string>
+    <string name="engine_stopping">ТОРМОЖЕНИЕ</string>
+    <string name="fault_active">АКТИВНА</string>
+    <string name="fault_previously_active">БЫЛА АКТИВНА</string>
+    <string name="fault_pending">ОЖИДАЕТ ПОДТВЕРЖДЕНИЯ</string>
+    <string name="pgn_eec1">Контроллер двигателя 1 (EEC1)</string>
+    <string name="pgn_eec2">Контроллер двигателя 2 (EEC2)</string>
+    <string name="pgn_et1">Температура двигателя (ET1)</string>
+    <string name="pgn_ccvs1">Скорость автомобиля (CCVS1)</string>
+    <string name="pgn_vep1">Электропитание (VEP1)</string>
+    <string name="pgn_etc2">Контроллер трансмиссии (ETC2)</string>
+    <string name="pgn_air1">Давление воздуха (AIR1)</string>
+    <string name="pgn_eflp1">Давление масла (EFL/P1)</string>
+    <string name="pgn_dd">Уровень топлива (DD)</string>
+    <string name="pgn_dm1">Активные коды неисправностей (DM1)</string>
     <string name="spn_label">SPN: %1$d | FMI: %2$d | Счётчик: %3$d</string>
 
     <!-- CAN Bus Screen -->
@@ -109,6 +129,6 @@
     <string name="pref_network_title">Сетевое подключение</string>
     <string name="pref_refresh_interval">Интервал опроса телеметрии (мс)</string>
     <string name="pref_about_title">О приложении TruckDiag</string>
-    <string name="app_version_label">Версия: 1.0.0 (MVP Diagnostic Edition)</string>
-    <string name="protocol_support_label">Протокол: SAE J1939 / CAN 2.0B / Scania Euro 6 Simulation</string>
+    <string name="app_version_label">Версия: 1.0.0 (демонстрационный выпуск)</string>
+    <string name="protocol_support_label">Протоколы: SAE J1939 / CAN 2.0B / симуляция Scania Euro 6</string>
 </resources>

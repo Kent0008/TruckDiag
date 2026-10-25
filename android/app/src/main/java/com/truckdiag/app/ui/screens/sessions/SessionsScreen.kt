@@ -132,7 +132,7 @@ fun SessionCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "ID: ${session.id.take(8)}",
+                    text = "Сеанс: ${session.id.take(8)}",
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     color = if (isSelected) PrimaryAmber else TextPrimary

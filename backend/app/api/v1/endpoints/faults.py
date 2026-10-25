@@ -138,12 +138,12 @@ async def post_scan_session_faults(session_id: str, db: AsyncSession = Depends(g
     return FaultScanResponse(
         session_id=session_id,
         scanned_ecus=[
-            "EMS S8 (Engine Management)",
-            "COO8 (Coordinator)",
-            "GMS (Gearbox Opticruise)",
-            "EBS7 (Braking System)",
-            "APS (Air Processing)",
-            "EEC (Aftertreatment SCR)",
+            "EMS S8 (управление двигателем)",
+            "COO8 (координатор бортовых систем)",
+            "GMS (коробка передач Opticruise)",
+            "EBS7 (тормозная система)",
+            "APS (подготовка воздуха)",
+            "EEC (система нейтрализации выхлопа SCR)",
         ],
         total_found=len(fault_responses),
         faults=fault_responses,

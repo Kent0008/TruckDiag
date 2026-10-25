@@ -30,7 +30,7 @@ DEFAULT_TRUCKS = [
         "vin": "YS2R4X20002984120",
         "engine_code": "DC13 155 / Euro 6d",
         "transmission_type": "GRSO905R Opticruise 12+2",
-        "ecu_list": "EMS S8 (Engine), COO8 (Coordinator), GMS (Gearbox), EBS7 (Braking), APS (Air Management), BUP (Backup)",
+        "ecu_list": "EMS S8 (двигатель), COO8 (координатор), GMS (коробка передач), EBS7 (тормозная система), APS (пневмосистема), BUP (резервный блок)",
         "simulated": True,
     },
     {
@@ -194,13 +194,13 @@ async def scan_faults_for_session(
     f1 = FaultModel(
         session_id=session_id,
         code="SPN 110 FMI 0 (Scania EMS 5104)",
-        source_ecu="EMS (Engine Management)",
+        source_ecu="EMS (управление двигателем)",
         spn=110,
         fmi=0,
         oc=2,
         severity="WARNING",
-        description="Coolant temperature exceeded secondary operating limit during high load.",
-        possible_causes="Prolonged hill climbing under full load or cooling fan clutch slip.",
+        description="Температура охлаждающей жидкости превысила рабочий предел при высокой нагрузке.",
+        possible_causes="Длительное движение на подъёме с высокой нагрузкой или неисправность муфты вентилятора охлаждения.",
         status="ACTIVE",
         timestamp=now - 320.0,
         simulated=True,
@@ -211,13 +211,13 @@ async def scan_faults_for_session(
     f2 = FaultModel(
         session_id=session_id,
         code="SPN 168 FMI 14 (Scania COO 3218)",
-        source_ecu="COO8 (Coordinator)",
+        source_ecu="COO8 (координатор бортовых систем)",
         spn=168,
         fmi=14,
         oc=1,
         severity="INFO",
-        description="System voltage dipped below 23.8V during cold engine preheating cycle.",
-        possible_causes="Preheating grid heater draw or battery aging.",
+        description="Напряжение бортовой сети кратковременно опустилось ниже 23,8 В во время предпускового подогрева двигателя.",
+        possible_causes="Высокая нагрузка предпускового подогревателя или износ аккумуляторных батарей.",
         status="PREVIOUSLY_ACTIVE",
         timestamp=now - 1450.0,
         simulated=True,
@@ -257,8 +257,8 @@ async def create_diagnostic_report(
         raise ValueError(f"Session '{req.session_id}' not found")
 
     truck = await get_truck_by_id(db, session.truck_id)
-    truck_model_str = f"{truck.brand} {truck.model} ({truck.year})" if truck else "Generic Truck"
-    truck_vin_str = truck.vin if truck else "UNKNOWN_VIN"
+    truck_model_str = f"{truck.brand} {truck.model} ({truck.year})" if truck else "Грузовой автомобиль"
+    truck_vin_str = truck.vin if truck else "не указан"
 
     # Get faults
     faults_res = await db.execute(
@@ -273,9 +273,9 @@ async def create_diagnostic_report(
     # Summary construction
     active_count = sum(1 for f in faults if f.status == "ACTIVE")
     summary = (
-        f"TruckDiag Diagnostic Session Report for {truck_model_str} [VIN: {truck_vin_str}]. "
-        f"Total DTCs found: {len(faults)} ({active_count} active). "
-        f"Simulation Mode: Active. Protocol: SAE J1939."
+        f"Отчёт TruckDiag по диагностике автомобиля {truck_model_str} (VIN: {truck_vin_str}). "
+        f"Кодов неисправностей: {len(faults)}, активных: {active_count}. "
+        "Режим симуляции. Протокол SAE J1939."
     )
 
     report_payload = {
@@ -307,15 +307,15 @@ async def create_diagnostic_report(
             [p.model_dump() for p in telemetry_snap.parameters] if telemetry_snap else []
         ),
         "disclaimer": (
-            "This report is generated from simulated diagnostic data. "
-            "No direct ECU communication was established with a physical vehicle."
+            "Отчёт сформирован по симулированным диагностическим данным. "
+            "Прямое соединение с электронными блоками реального автомобиля не выполнялось."
         ),
     }
 
     report = ReportModel(
         session_id=session.id,
         created_at=utc_now(),
-        title=req.title or "Diagnostic Scan Report",
+        title=req.title or "Отчёт диагностического сканирования",
         summary=summary,
         truck_model=truck_model_str,
         truck_vin=truck_vin_str,

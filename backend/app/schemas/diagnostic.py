@@ -23,8 +23,8 @@ class SystemInfoResponse(BaseModel):
         "RP1210_PASSTHRU (Prepared)",
     ]
     supported_truck_platforms: List[str] = [
-        "Scania R/S-Series (2019-2023 Euro 6)",
-        "Volvo FH Series (2014+ J1939 Architecture)",
+        "Scania серии R/S (2019–2023, Euro 6)",
+        "Volvo FH (с 2014 года, архитектура J1939)",
     ]
     environment: str = "local_development"
 
@@ -227,7 +227,7 @@ class J1939PgnInfo(BaseModel):
 # Reports
 class ReportCreateRequest(BaseModel):
     session_id: str
-    title: Optional[str] = "Diagnostic Scan Report"
+    title: Optional[str] = "Отчёт диагностического сканирования"
     technician_notes: Optional[str] = ""
 
 

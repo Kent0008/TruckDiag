@@ -102,7 +102,7 @@ fun LiveDataScreen(
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Text(
-                    text = "Режим ДВС:",
+                    text = "Режим двигателя:",
                     style = MaterialTheme.typography.labelSmall,
                     color = TextSecondary,
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -212,7 +212,7 @@ fun LiveDataScreen(
                         }
 
                         MetricGaugeCard(
-                            name = param.name,
+                            name = param.nameRu.ifBlank { param.name },
                             value = param.value,
                             unit = param.unit,
                             quality = param.quality,
