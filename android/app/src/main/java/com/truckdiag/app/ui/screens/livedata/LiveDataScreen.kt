@@ -102,7 +102,7 @@ fun LiveDataScreen(
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Text(
-                    text = "Режим двигателя:",
+                    text = stringResource(R.string.engine_mode_label),
                     style = MaterialTheme.typography.labelSmall,
                     color = TextSecondary,
                     modifier = Modifier.align(Alignment.CenterVertically)
@@ -111,7 +111,7 @@ fun LiveDataScreen(
                 FilterChip(
                     selected = state.telemetry?.engineState == "IDLE",
                     onClick = { viewModel.setEngineState("IDLE") },
-                    label = { Text("Холостой ход") },
+                    label = { Text(stringResource(R.string.engine_state_idle_label)) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = CardBorder,
                         selectedLabelColor = PrimaryAmberLight
@@ -121,7 +121,7 @@ fun LiveDataScreen(
                 FilterChip(
                     selected = state.telemetry?.engineState == "DRIVING",
                     onClick = { viewModel.setEngineState("DRIVING") },
-                    label = { Text("Движение") },
+                    label = { Text(stringResource(R.string.engine_state_driving_label)) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = CardBorder,
                         selectedLabelColor = AccentCyan
@@ -131,7 +131,7 @@ fun LiveDataScreen(
                 FilterChip(
                     selected = state.telemetry?.engineState == "STOPPING",
                     onClick = { viewModel.setEngineState("STOPPING") },
-                    label = { Text("Торможение") },
+                    label = { Text(stringResource(R.string.engine_state_stopping_label)) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = CardBorder,
                         selectedLabelColor = StatusAmber
@@ -141,7 +141,7 @@ fun LiveDataScreen(
                 FilterChip(
                     selected = state.telemetry?.engineState == "ENGINE_OFF",
                     onClick = { viewModel.setEngineState("ENGINE_OFF") },
-                    label = { Text("Заглушен") },
+                    label = { Text(stringResource(R.string.engine_state_off_label)) },
                     colors = FilterChipDefaults.filterChipColors(
                         selectedContainerColor = CardBorder,
                         selectedLabelColor = StatusRed

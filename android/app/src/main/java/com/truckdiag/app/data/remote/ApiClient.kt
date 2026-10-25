@@ -2,6 +2,9 @@ package com.truckdiag.app.data.remote
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.os.LocaleList
+import androidx.annotation.StringRes
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -18,6 +21,7 @@ object ApiClient {
     private var currentBaseUrl: String = DEFAULT_BASE_URL
     private var cachedService: TruckDiagApiService? = null
     private var sharedPreferences: SharedPreferences? = null
+    private var applicationContext: Context? = null
 
     val moshi: Moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
@@ -28,6 +32,7 @@ object ApiClient {
             .connectTimeout(5, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
+            .addInterceptor(AcceptLanguageInterceptor(::currentLanguageTag))
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BASIC
             })
@@ -35,6 +40,7 @@ object ApiClient {
     }
 
     fun init(context: Context) {
+        applicationContext = context.applicationContext
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         currentBaseUrl = sharedPreferences?.getString(KEY_BASE_URL, DEFAULT_BASE_URL) ?: DEFAULT_BASE_URL
         if (!currentBaseUrl.endsWith("/")) {
@@ -43,6 +49,16 @@ object ApiClient {
     }
 
     fun getBaseUrl(): String = currentBaseUrl
+
+    fun getLocalizedString(@StringRes resourceId: Int, vararg formatArgs: Any): String {
+        val context = applicationContext ?: return ""
+        val configuration = Configuration(context.resources.configuration)
+        configuration.setLocales(LocaleList.forLanguageTags(currentLanguageTag()))
+        return context.createConfigurationContext(configuration).getString(resourceId, *formatArgs)
+    }
+
+    private fun currentLanguageTag(): String =
+        androidx.appcompat.app.AppCompatDelegate.getApplicationLocales().toLanguageTags().ifBlank { "ru" }
 
     fun setBaseUrl(newUrl: String) {
         var formatted = newUrl.trim()

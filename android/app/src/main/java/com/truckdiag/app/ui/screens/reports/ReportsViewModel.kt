@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.truckdiag.app.data.model.DiagnosticReport
 import com.truckdiag.app.data.model.ReportDetail
+import com.truckdiag.app.R
+import com.truckdiag.app.data.remote.ApiClient
 import com.truckdiag.app.data.repository.NetworkResult
 import com.truckdiag.app.data.repository.TruckDiagRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,7 +52,9 @@ class ReportsViewModel(
     fun createReportForActiveSession(title: String, notes: String) {
         val sessionId = repository.activeSession.value?.id
         if (sessionId == null) {
-            _uiState.value = _uiState.value.copy(errorMessage = "Нет активного сеанса для отчёта")
+            _uiState.value = _uiState.value.copy(
+                errorMessage = ApiClient.getLocalizedString(R.string.report_active_session_required)
+            )
             return
         }
 
@@ -59,7 +63,10 @@ class ReportsViewModel(
             when (val res = repository.createReport(sessionId, title, notes)) {
                 is NetworkResult.Success -> {
                     _uiState.value = _uiState.value.copy(
-                        successMessage = "Отчёт '${res.data.title}' успешно сформирован!"
+                        successMessage = ApiClient.getLocalizedString(
+                            R.string.report_created_success,
+                            res.data.title
+                        )
                     )
                     loadReports()
                 }

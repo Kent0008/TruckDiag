@@ -2,22 +2,20 @@ package com.truckdiag.app.ui.components
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import com.truckdiag.app.R
 
 class DiagnosticLocalizationTest {
     @Test
     fun localizesImplementedSpnNamesAndDescriptions() {
-        assertEquals("Частота вращения двигателя", LocalizedSpnName(190, "Engine Speed"))
-        assertEquals("Давление моторного масла", LocalizedSpnName(100, "Engine Oil Pressure"))
-        assertEquals(
-            "Фактическая частота вращения коленчатого вала двигателя.",
-            LocalizedSpnDescription(190, "Actual engine speed")
-        )
+        assertEquals(R.string.spn_190_name, spnNameResourceId(190))
+        assertEquals(R.string.spn_100_name, spnNameResourceId(100))
+        assertEquals(R.string.spn_190_description, spnDescriptionResourceId(190))
     }
 
     @Test
     fun localizesKnownSourceAddressesAndUsesRussianFallback() {
-        assertEquals("Двигатель №1 (EMS)", LocalizedSourceName(0x00))
-        assertEquals("Коробка передач (GMS)", LocalizedSourceName(0x03))
-        assertEquals("Блок управления 0x42", LocalizedSourceName(0x42))
+        assertEquals(R.string.source_engine_1, sourceNameResourceId(0x00))
+        assertEquals(R.string.source_transmission, sourceNameResourceId(0x03))
+        assertEquals(R.string.source_unknown, sourceNameResourceId(0x42))
     }
 }

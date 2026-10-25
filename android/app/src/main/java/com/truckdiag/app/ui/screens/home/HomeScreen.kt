@@ -57,6 +57,13 @@ fun HomeScreen(
                             tint = PrimaryAmber
                         )
                     }
+                    IconButton(onClick = { navController.navigate(Screen.Settings.route) }) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = stringResource(R.string.nav_settings),
+                            tint = TextSecondary
+                        )
+                    }
                     IconButton(onClick = { viewModel.refresh() }) {
                         Icon(
                             imageVector = Icons.Default.Refresh,
@@ -124,17 +131,21 @@ fun HomeScreen(
                 val session = state.activeSession
                 if (session != null) {
                     Text(
-                        text = "Сеанс: ${session.id.take(12)}...",
+                        text = stringResource(R.string.session_id_short, session.id.take(12)),
                         style = MaterialTheme.typography.bodyMedium,
                         color = TextPrimary
                     )
                     Text(
-                        text = "${stringResource(R.string.session_operator_label, session.operatorName)}",
+                        text = stringResource(R.string.session_operator_label, session.operatorName),
                         style = MaterialTheme.typography.bodyMedium,
                         color = TextSecondary
                     )
                     Text(
-                        text = "Автомобиль: ${session.truck?.brand ?: "Scania"} ${session.truck?.model ?: "R500"}",
+                        text = stringResource(
+                            R.string.session_truck_line,
+                            session.truck?.brand ?: stringResource(R.string.default_truck_brand),
+                            session.truck?.model ?: stringResource(R.string.default_truck_model)
+                        ),
                         style = MaterialTheme.typography.bodyMedium,
                         color = AccentCyan
                     )
@@ -189,7 +200,7 @@ fun HomeScreen(
 
             // Quick Diagnostic Shortcuts Grid
             Text(
-                text = "Диагностические функции",
+                text = stringResource(R.string.diagnostic_features),
                 style = MaterialTheme.typography.titleSmall,
                 color = TextSecondary,
                 fontWeight = FontWeight.SemiBold
@@ -201,7 +212,7 @@ fun HomeScreen(
             ) {
                 DiagnosticFeatureCard(
                     title = stringResource(R.string.nav_canbus),
-                    subtitle = "CAN 2.0B / J1939",
+                    subtitle = stringResource(R.string.can_shortcut_subtitle),
                     icon = Icons.Default.Memory,
                     accentColor = AccentCyan,
                     modifier = Modifier.weight(1f)
@@ -211,7 +222,7 @@ fun HomeScreen(
 
                 DiagnosticFeatureCard(
                     title = stringResource(R.string.nav_decoder),
-                    subtitle = "Разбор SPN/PGN",
+                    subtitle = stringResource(R.string.decoder_shortcut_subtitle),
                     icon = Icons.Default.Code,
                     accentColor = PrimaryAmberLight,
                     modifier = Modifier.weight(1f)
@@ -226,7 +237,7 @@ fun HomeScreen(
             ) {
                 DiagnosticFeatureCard(
                     title = stringResource(R.string.nav_sessions),
-                    subtitle = "История и статус",
+                    subtitle = stringResource(R.string.sessions_shortcut_subtitle),
                     icon = Icons.Default.History,
                     accentColor = StatusGreen,
                     modifier = Modifier.weight(1f)
@@ -236,7 +247,7 @@ fun HomeScreen(
 
                 DiagnosticFeatureCard(
                     title = stringResource(R.string.nav_reports),
-                    subtitle = "Экспорт в JSON",
+                    subtitle = stringResource(R.string.reports_shortcut_subtitle),
                     icon = Icons.Default.Description,
                     accentColor = PrimaryAmber,
                     modifier = Modifier.weight(1f)
@@ -247,15 +258,18 @@ fun HomeScreen(
 
             // System Capabilities Card
             state.systemInfo?.let { info ->
-                DiagnosticCard(title = "Платформа и протоколы") {
+                DiagnosticCard(title = stringResource(R.string.platform_protocols_title)) {
                     Text(
-                        text = "Версия API: ${info.apiVersion} | ${info.protocolVersion}",
+                        text = stringResource(R.string.api_version_line, info.apiVersion, info.protocolVersion),
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Поддерживаемые платформы: ${info.supportedTruckPlatforms.joinToString(", ")}",
+                        text = stringResource(
+                            R.string.supported_platforms_line,
+                            localizedPlatformList(info.supportedTruckPlatforms)
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary
                     )
@@ -263,6 +277,19 @@ fun HomeScreen(
             }
         }
     }
+}
+
+@Composable
+private fun localizedPlatformList(platforms: List<String>): String {
+    val names = mutableListOf<String>()
+    for (platform in platforms) {
+        names += when {
+            platform.startsWith("Scania") -> stringResource(R.string.platform_scania_rs)
+            platform.startsWith("Volvo FH") -> stringResource(R.string.platform_volvo_fh)
+            else -> platform
+        }
+    }
+    return names.joinToString(", ")
 }
 
 @Composable

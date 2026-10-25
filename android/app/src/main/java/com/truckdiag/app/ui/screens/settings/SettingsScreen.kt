@@ -1,13 +1,21 @@
 package com.truckdiag.app.ui.screens.settings
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,6 +33,12 @@ import com.truckdiag.app.ui.theme.*
 fun SettingsScreen(
     navController: NavController
 ) {
+    var showLanguageDialog by remember { mutableStateOf(false) }
+    val currentLanguage = AppCompatDelegate.getApplicationLocales()[0]?.language ?: "ru"
+    val currentLanguageName = stringResource(
+        if (currentLanguage == "ky") R.string.language_kyrgyz else R.string.language_russian
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -42,9 +56,24 @@ fun SettingsScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            DiagnosticCard(title = stringResource(R.string.language_title)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(currentLanguageName, color = TextPrimary)
+                    OutlinedButton(onClick = { showLanguageDialog = true }) {
+                        Icon(Icons.Default.Language, contentDescription = null)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(stringResource(R.string.language_change_action))
+                        }
+                    }
+            }
+
             DiagnosticCard(title = stringResource(R.string.pref_network_title)) {
                 Text(
-                    text = "Текущий адрес API: ${ApiClient.getBaseUrl()}",
+                    text = stringResource(R.string.current_api_address, ApiClient.getBaseUrl()),
                     style = MaterialTheme.typography.bodyMedium,
                     color = AccentCyan
                 )
@@ -67,7 +96,7 @@ fun SettingsScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Клиент TruckDiag для Android",
+                        text = stringResource(R.string.android_client_name),
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         color = TextPrimary
@@ -94,13 +123,62 @@ fun SettingsScreen(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    text = "Архитектура: Kotlin, Jetpack Compose, Material 3, MVVM, Coroutines & Flow, Retrofit 2, Moshi, OkHttp WebSocket.\n\n" +
-                           "Диагностический стек: SAE J1939 29-bit CAN 2.0B, PGN/SPN декодер, эмуляция ECU Scania DC13/DC16 Euro 6.",
+                    text = stringResource(R.string.app_architecture_text) + "\n\n" +
+                        stringResource(R.string.app_diagnostic_stack_text),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextMuted,
                     lineHeight = 18.sp
                 )
             }
         }
+    }
+
+    if (showLanguageDialog) {
+        AlertDialog(
+            onDismissRequest = { showLanguageDialog = false },
+            title = { Text(stringResource(R.string.language_dialog_title), color = TextPrimary) },
+            text = {
+                Column {
+                    listOf(
+                        "ru" to R.string.language_russian,
+                        "ky" to R.string.language_kyrgyz
+                    ).forEach { (languageTag, nameResource) ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    showLanguageDialog = false
+                                    AppCompatDelegate.setApplicationLocales(
+                                        LocaleListCompat.forLanguageTags(languageTag)
+                                    )
+                                }
+                                .padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = currentLanguage == languageTag,
+                                onClick = {
+                                    showLanguageDialog = false
+                                    AppCompatDelegate.setApplicationLocales(
+                                        LocaleListCompat.forLanguageTags(languageTag)
+                                    )
+                                }
+                            )
+                            Text(
+                                text = stringResource(nameResource),
+                                color = TextPrimary,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showLanguageDialog = false }) {
+                    Text(stringResource(R.string.cancel), color = TextSecondary)
+                }
+            },
+            containerColor = SurfaceDark
+        )
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -190,7 +191,7 @@ fun ReportCardItem(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "${report.truckModel} | Идентификационный номер: ${report.truckVin}",
+                text = stringResource(R.string.report_truck_vin_line, report.truckModel, report.truckVin),
                 style = MaterialTheme.typography.bodySmall,
                 color = AccentCyan
             )
@@ -211,14 +212,18 @@ fun ReportCardItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(R.string.report_faults_count, report.totalFaults),
+                    text = pluralStringResource(
+                        R.plurals.report_fault_count,
+                        report.totalFaults,
+                        report.totalFaults
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = if (report.activeFaults > 0) StatusAmber else StatusGreen,
                     fontWeight = FontWeight.SemiBold
                 )
 
                 Text(
-                    text = "Открыть отчёт →",
+                    text = stringResource(R.string.report_open_action),
                     style = MaterialTheme.typography.labelSmall,
                     color = PrimaryAmber
                 )
@@ -232,25 +237,27 @@ fun CreateReportDialog(
     onDismiss: () -> Unit,
     onConfirm: (title: String, notes: String) -> Unit
 ) {
-    var title by remember { mutableStateOf("Отчёт диагностики Scania J1939") }
-    var notes by remember { mutableStateOf("Плановый технический осмотр и считывание кодов неисправностей.") }
+    val defaultTitle = stringResource(R.string.report_default_title)
+    val defaultNotes = stringResource(R.string.report_default_notes)
+    var title by remember { mutableStateOf(defaultTitle) }
+    var notes by remember { mutableStateOf(defaultNotes) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Сформировать отчёт", color = TextPrimary) },
+        title = { Text(stringResource(R.string.report_create_title), color = TextPrimary) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("Заголовок отчёта") },
+                    label = { Text(stringResource(R.string.report_title_field)) },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = notes,
                     onValueChange = { notes = it },
-                    label = { Text("Заметки инженера") },
+                    label = { Text(stringResource(R.string.report_notes_field)) },
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -260,12 +267,12 @@ fun CreateReportDialog(
                 onClick = { onConfirm(title, notes) },
                 colors = ButtonDefaults.buttonColors(containerColor = PrimaryAmber)
             ) {
-                Text("Сохранить", color = BgDark, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.save), color = BgDark, fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Отмена", color = TextSecondary)
+                Text(stringResource(R.string.cancel), color = TextSecondary)
             }
         },
         containerColor = SurfaceDark
@@ -290,7 +297,12 @@ fun ReportDetailModal(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "Автомобиль: ${detail.truckModel}\nИдентификационный номер (VIN): ${detail.truckVin}\nСпециалист: ${detail.operatorName}",
+                    text = stringResource(
+                        R.string.report_vehicle_details,
+                        detail.truckModel,
+                        detail.truckVin,
+                        detail.operatorName
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextPrimary
                 )
@@ -298,14 +310,22 @@ fun ReportDetailModal(
                 Divider(color = CardBorder, modifier = Modifier.padding(vertical = 4.dp))
 
                 Text(
-                    text = "Итоги сканирования:",
+                    text = stringResource(R.string.report_scan_summary),
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     color = PrimaryAmberLight
                 )
 
                 Text(
-                    text = "Всего кодов неисправностей: ${detail.totalFaults} | Активных: ${detail.activeFaults}",
+                    text = pluralStringResource(
+                        R.plurals.report_total_faults_count,
+                        detail.totalFaults,
+                        detail.totalFaults
+                    ) + " | " + pluralStringResource(
+                        R.plurals.report_active_faults_count,
+                        detail.activeFaults,
+                        detail.activeFaults
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary
                 )
@@ -326,7 +346,7 @@ fun ReportDetailModal(
                 onClick = onDismiss,
                 colors = ButtonDefaults.buttonColors(containerColor = PrimaryAmber)
             ) {
-                Text("Закрыть", color = BgDark, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.close_button), color = BgDark, fontWeight = FontWeight.Bold)
             }
         },
         containerColor = SurfaceDark

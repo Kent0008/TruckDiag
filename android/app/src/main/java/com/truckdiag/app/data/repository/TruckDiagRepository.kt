@@ -1,6 +1,7 @@
 package com.truckdiag.app.data.repository
 
 import com.truckdiag.app.data.model.*
+import com.truckdiag.app.R
 import com.truckdiag.app.data.remote.ApiClient
 import com.truckdiag.app.data.remote.WebSocketClient
 import kotlinx.coroutines.*
@@ -52,7 +53,7 @@ class TruckDiagRepository private constructor() {
             val res = api.getHealth()
             NetworkResult.Success(res)
         } catch (e: Exception) {
-            NetworkResult.Error("API недоступен: ${e.localizedMessage ?: e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_api_unavailable), e)
         }
     }
 
@@ -61,7 +62,7 @@ class TruckDiagRepository private constructor() {
             val res = api.getSystemInfo()
             NetworkResult.Success(res)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка получения системной информации: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_system_info_load), e)
         }
     }
 
@@ -70,7 +71,7 @@ class TruckDiagRepository private constructor() {
             val res = api.getTrucks()
             NetworkResult.Success(res)
         } catch (e: Exception) {
-            NetworkResult.Error("Не удалось загрузить список грузовиков: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_trucks_load), e)
         }
     }
 
@@ -81,7 +82,7 @@ class TruckDiagRepository private constructor() {
             _activeSession.value = session
             NetworkResult.Success(session)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка создания сеанса: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_session_create), e)
         }
     }
 
@@ -92,7 +93,7 @@ class TruckDiagRepository private constructor() {
             webSocketClient.connect(sessionId)
             NetworkResult.Success(session)
         } catch (e: Exception) {
-            NetworkResult.Error("Не удалось запустить сеанс: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_session_start), e)
         }
     }
 
@@ -104,7 +105,7 @@ class TruckDiagRepository private constructor() {
             stopFallbackPolling()
             NetworkResult.Success(session)
         } catch (e: Exception) {
-            NetworkResult.Error("Не удалось остановить сеанс: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_session_stop), e)
         }
     }
 
@@ -113,7 +114,7 @@ class TruckDiagRepository private constructor() {
             val list = api.getSessions(50)
             NetworkResult.Success(list)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка загрузки истории сеансов: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_sessions_load), e)
         }
     }
 
@@ -122,7 +123,7 @@ class TruckDiagRepository private constructor() {
             val status = api.getSessionStatus(sessionId)
             NetworkResult.Success(status)
         } catch (e: Exception) {
-            NetworkResult.Error("Не удалось получить статус: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_session_status), e)
         }
     }
 
@@ -131,7 +132,7 @@ class TruckDiagRepository private constructor() {
             val scan = api.scanFaults(sessionId)
             NetworkResult.Success(scan)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка сканирования кодов DTC: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_faults_scan), e)
         }
     }
 
@@ -140,7 +141,7 @@ class TruckDiagRepository private constructor() {
             val faults = api.getSessionFaults(sessionId)
             NetworkResult.Success(faults)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка загрузки DTC: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_faults_load), e)
         }
     }
 
@@ -149,7 +150,7 @@ class TruckDiagRepository private constructor() {
             val frames = api.getCanFrames(sessionId, limit)
             NetworkResult.Success(frames)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка получения CAN кадров: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_can_frames_load), e)
         }
     }
 
@@ -159,7 +160,7 @@ class TruckDiagRepository private constructor() {
             val res = api.decodeCanFrame(req)
             NetworkResult.Success(res)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка декодирования: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_can_decode), e)
         }
     }
 
@@ -169,7 +170,7 @@ class TruckDiagRepository private constructor() {
             val res = api.createReport(req)
             NetworkResult.Success(res)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка формирования отчёта: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_report_create), e)
         }
     }
 
@@ -178,7 +179,7 @@ class TruckDiagRepository private constructor() {
             val res = api.getReports(50)
             NetworkResult.Success(res)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка загрузки отчётов: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_reports_load), e)
         }
     }
 
@@ -187,7 +188,7 @@ class TruckDiagRepository private constructor() {
             val res = api.getReportDetails(reportId)
             NetworkResult.Success(res)
         } catch (e: Exception) {
-            NetworkResult.Error("Ошибка загрузки деталей отчёта: ${e.message}", e)
+            NetworkResult.Error(ApiClient.getLocalizedString(R.string.error_report_details), e)
         }
     }
 

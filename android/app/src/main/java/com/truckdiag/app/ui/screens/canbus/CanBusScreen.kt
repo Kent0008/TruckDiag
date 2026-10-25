@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,7 @@ fun CanBusScreen(
                             color = TextPrimary
                         )
                         Text(
-                            text = stringResource(R.string.can_frames_count, state.frames.size),
+                            text = pluralStringResource(R.plurals.can_frame_count, state.frames.size, state.frames.size),
                             style = MaterialTheme.typography.bodySmall,
                             color = TextSecondary
                         )
@@ -87,7 +88,7 @@ fun CanBusScreen(
             ) {
                 SimulatedBadge()
                 Text(
-                    text = "SAE J1939 · 29-битная шина CAN · 250 кбит/с",
+                    text = stringResource(R.string.can_bus_standard_label),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     fontFamily = FontFamily.Monospace,
@@ -140,7 +141,7 @@ fun CanFrameRowItem(frame: CanFrameDto) {
                 )
 
                 Text(
-                    text = "Группа PGN: ${frame.pgn} (${LocalizedPgnName(frame.pgn, frame.pgnName)})",
+                    text = stringResource(R.string.pgn_group_label, frame.pgn, LocalizedPgnName(frame.pgn, frame.pgnName)),
                     style = MaterialTheme.typography.bodySmall,
                     color = PrimaryAmberLight,
                     fontWeight = FontWeight.Medium
@@ -154,14 +155,18 @@ fun CanFrameRowItem(frame: CanFrameDto) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Адрес источника: 0x${frame.sourceAddress.toString(16).uppercase().padStart(2, '0')} (${LocalizedSourceName(frame.sourceAddress)})",
+                    text = stringResource(
+                        R.string.source_address_label,
+                        frame.sourceAddress.toString(16).uppercase().padStart(2, '0'),
+                        LocalizedSourceName(frame.sourceAddress)
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     fontSize = 11.sp
                 )
 
                 Text(
-                    text = "Приоритет: ${frame.priority} | Длина данных: ${frame.dlc}",
+                    text = stringResource(R.string.priority_data_length_label, frame.priority, frame.dlc),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary,
                     fontFamily = FontFamily.Monospace,

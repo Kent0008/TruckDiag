@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -116,7 +117,7 @@ fun FaultsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Кодов неисправностей: ${state.faults.size}",
+                    text = pluralStringResource(R.plurals.fault_count, state.faults.size, state.faults.size),
                     style = MaterialTheme.typography.titleSmall,
                     color = TextPrimary,
                     fontWeight = FontWeight.SemiBold
@@ -125,7 +126,7 @@ fun FaultsScreen(
                 TextButton(onClick = { viewModel.injectTestFault("COOLANT_OVERHEAT") }) {
                     Icon(Icons.Default.AddAlert, contentDescription = null, tint = StatusAmber, modifier = Modifier.size(14.dp))
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("+ Проверить перегрев двигателя", fontSize = 11.sp, color = StatusAmber)
+                    Text(stringResource(R.string.fault_test_overheat), fontSize = 11.sp, color = StatusAmber)
                 }
             }
 
@@ -200,7 +201,11 @@ fun FaultItemCard(fault: Fault) {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "Блок управления: ${fault.sourceEcu} | Статус: ${LocalizedDtcStatus(fault.status)}",
+                text = stringResource(
+                    R.string.ecu_label,
+                    fault.sourceEcu,
+                    LocalizedDtcStatus(fault.status)
+                ),
                 style = MaterialTheme.typography.bodySmall,
                 color = AccentCyan
             )
@@ -216,7 +221,7 @@ fun FaultItemCard(fault: Fault) {
             if (fault.possibleCauses.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "Возможные причины: ${fault.possibleCauses}",
+                    text = stringResource(R.string.possible_causes_label, fault.possibleCauses),
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary
                 )
@@ -238,7 +243,7 @@ fun FaultItemCard(fault: Fault) {
 
                 if (fault.simulated) {
                     Text(
-                        text = "[СИМУЛЯЦИЯ]",
+                        text = stringResource(R.string.simulation_label),
                         style = MaterialTheme.typography.bodySmall,
                         color = StatusAmber,
                         fontFamily = FontFamily.Monospace,
